@@ -8,9 +8,11 @@ import {
   ActivityIndicator,
   Modal,
   Alert,
+  AsyncStore,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 const Login = () => {
@@ -19,6 +21,20 @@ const Login = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const statusBarHeight = StatusBar.currentHeight;
+  // useEffect(() => {
+  //   const checkLoginStatus = async () => {
+  //     try {
+  //       const token = await AsyncStorage.getItem("token");
+  //       if (token) {
+  //         navigation.replace("Home");
+  //       } else {
+  //       }
+  //     } catch (err) {
+  //       console.log("Error  ", err);
+  //     }
+  //   };
+  //   checkLoginStatus();
+  // }, []);
   const handleLogin = () => {
     if (email.trim().length == 0 || password.trim().length == 0) {
       Alert.alert("Please fill all the fields");
@@ -31,7 +47,17 @@ const Login = () => {
       .post("http://192.168.85.115:3000/login", user)
       .then((res) => {
         setLoading(false);
-        Alert.alert(res.data.message);
+
+        if (
+          res.data.token &&
+          res.data.message == "Login Successfull!" &&
+          res.data.success == true
+        ) {
+          AsyncStorage.setItem("token", res.data.token);
+          navigation.replace("Home");
+        } else {
+          Alert.alert(res.data.message);
+        }
       })
       .catch((err) => {
         if (err) {
