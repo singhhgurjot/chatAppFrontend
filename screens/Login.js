@@ -54,6 +54,7 @@ const Login = () => {
           res.data.success == true
         ) {
           AsyncStorage.setItem("token", res.data.token);
+          AsyncStorage.setItem("userId", res.data.userId);
           navigation.replace("Home");
         } else {
           Alert.alert(res.data.message);

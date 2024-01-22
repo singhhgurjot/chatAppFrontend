@@ -37,7 +37,7 @@ const Login = () => {
       };
       setLoading(true);
       axios
-        .post("http://192.168.85.115:3000/register", user)
+        .post("http://192.168.1.6:3000/register", user)
         .then((res) => {
           console.log(res);
           setLoading(false);
