@@ -6,6 +6,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { Alert } from "react-native";
+import User from "./User.js";
 import axios from "axios";
 const Home = () => {
   const { userId, setUserId } = useContext(UserType);
@@ -43,7 +44,7 @@ const Home = () => {
         const userId = await AsyncStorage.getItem("userId");
 
         setUserId(userId);
-        console.log(userId);
+
         await axios
           .get(`http://192.168.85.115:3000/getUsers/${userId}`)
           .then((res) => {
@@ -59,7 +60,15 @@ const Home = () => {
     }
   }, []);
   const [users, setUsers] = useState([]);
-  return <View></View>;
+  return (
+    <View>
+      <View>
+        {users.map((item, index) => {
+          return <User item={item} key={index}></User>;
+        })}
+      </View>
+    </View>
+  );
 };
 export default Home;
 const styles = StyleSheet.create({});

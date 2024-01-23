@@ -21,20 +21,20 @@ const Login = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const statusBarHeight = StatusBar.currentHeight;
-  // useEffect(() => {
-  //   const checkLoginStatus = async () => {
-  //     try {
-  //       const token = await AsyncStorage.getItem("token");
-  //       if (token) {
-  //         navigation.replace("Home");
-  //       } else {
-  //       }
-  //     } catch (err) {
-  //       console.log("Error  ", err);
-  //     }
-  //   };
-  //   checkLoginStatus();
-  // }, []);
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+          navigation.replace("Home");
+        } else {
+        }
+      } catch (err) {
+        console.log("Error  ", err);
+      }
+    };
+    checkLoginStatus();
+  }, []);
   const handleLogin = () => {
     if (email.trim().length == 0 || password.trim().length == 0) {
       Alert.alert("Please fill all the fields");
