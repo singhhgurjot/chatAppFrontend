@@ -27,7 +27,6 @@ const Login = () => {
         const token = await AsyncStorage.getItem("token");
         if (token) {
           navigation.replace("Home");
-        } else {
         }
       } catch (err) {
         console.log("Error  ", err);

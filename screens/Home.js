@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useLayoutEffect, useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserType } from "../contexts/userContext.js";
@@ -30,10 +30,18 @@ const Home = () => {
       },
       headerRight: () => {
         return (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
-            <MaterialIcons name="chat" size={30} color="#1B2E3C" />
-            <MaterialIcons name="group" size={30} color="#1B2E3C" />
-          </View>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("Friends");
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", alignItems: "center", gap: 20 }}
+            >
+              <MaterialIcons name="chat" size={30} color="#1B2E3C" />
+              <MaterialIcons name="group" size={30} color="#1B2E3C" />
+            </View>
+          </Pressable>
         );
       },
     });
