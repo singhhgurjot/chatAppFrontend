@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { UserType } from "../contexts/userContext";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons.js";
+import Toast from "react-native-toast-message";
 const User = ({ item }) => {
   const { userId, setUserId } = useContext(UserType);
   const [sentFriendReq, setFriendReq] = useState(false);
@@ -17,9 +18,19 @@ const User = ({ item }) => {
           res.data.success === true
         ) {
           setFriendReq(true);
-          Alert.alert("Friend Request Sent");
+          Toast.show({
+            type: "success",
+            text1: "Friend request sent",
+            visibilityTime: 2000,
+            text1Style: { fontSize: 15 },
+          });
         } else {
-          Alert.alert("Friend Request Not Sent");
+          Toast.show({
+            type: "error",
+            text1: "Error sending friend request",
+            visibilityTime: 2000,
+            text1Style: { fontSize: 15 },
+          });
         }
       });
   };
@@ -35,9 +46,19 @@ const User = ({ item }) => {
           res.data.success === true
         ) {
           setFriendReq(false);
-          Alert.alert("Friend Request taken back");
+          Toast.show({
+            type: "success",
+            text1: "Friend request taken back",
+            visibilityTime: 2000,
+            text1Style: { fontSize: 15 },
+          });
         } else {
-          Alert.alert("Friend Request not Taken Back");
+          Toast.show({
+            type: "error",
+            text1: "Error taking Friend request back",
+            visibilityTime: 2000,
+            text1Style: { fontSize: 15 },
+          });
         }
       })
       .catch((err) => {

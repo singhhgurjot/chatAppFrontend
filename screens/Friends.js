@@ -3,6 +3,7 @@ import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { UserType } from "../contexts/userContext";
 import FriendRequests from "./FriendRequests.js";
+import Toast from "react-native-toast-message";
 const Friends = () => {
   const { userId, setUserId } = useContext(UserType);
   const [friendRequests, setFriendRequests] = useState([]);
@@ -19,23 +20,26 @@ const Friends = () => {
   }, []);
   console.log(friendRequests);
   return (
-    <View style={{ padding: 10, marginHorizontal: 12 }}>
-      {friendRequests.length > 0 && (
-        <Text style={{ color: "black", marginBottom: 20 }}>
-          Your Friend Requests!
-        </Text>
-      )}
-      {friendRequests.map((item, key) => {
-        return (
-          <FriendRequests
-            item={item}
-            key={key}
-            friendRequests={friendRequests}
-            setFriendRequest={setFriendRequests}
-          />
-        );
-      })}
-    </View>
+    <>
+      <View style={{ padding: 10, marginHorizontal: 12 }}>
+        {friendRequests.length > 0 && (
+          <Text style={{ color: "black", marginBottom: 20 }}>
+            Your Friend Requests!
+          </Text>
+        )}
+        {friendRequests.map((item, key) => {
+          return (
+            <FriendRequests
+              item={item}
+              key={key}
+              friendRequests={friendRequests}
+              setFriendRequest={setFriendRequests}
+            />
+          );
+        })}
+      </View>
+      <Toast />
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import { Alert } from "react-native";
 import User from "./User.js";
+import Toast from "react-native-toast-message";
 import axios from "axios";
 const Home = () => {
   const { userId, setUserId } = useContext(UserType);
@@ -30,18 +31,23 @@ const Home = () => {
       },
       headerRight: () => {
         return (
-          <Pressable
-            onPress={() => {
-              navigation.navigate("Friends");
-            }}
-          >
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 20 }}
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Chats");
+              }}
             >
               <MaterialIcons name="chat" size={30} color="#1B2E3C" />
+            </Pressable>
+
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Friends");
+              }}
+            >
               <MaterialIcons name="group" size={30} color="#1B2E3C" />
-            </View>
-          </Pressable>
+            </Pressable>
+          </View>
         );
       },
     });
@@ -69,13 +75,16 @@ const Home = () => {
   }, []);
   const [users, setUsers] = useState([]);
   return (
-    <View>
+    <>
       <View>
-        {users.map((item, index) => {
-          return <User item={item} key={index}></User>;
-        })}
+        <View>
+          {users.map((item, index) => {
+            return <User item={item} key={index}></User>;
+          })}
+        </View>
       </View>
-    </View>
+      <Toast />
+    </>
   );
 };
 export default Home;
