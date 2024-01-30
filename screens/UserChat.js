@@ -1,15 +1,22 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const UserChat = ({ item }) => {
+  const navigation = useNavigation();
   return (
     <Pressable
       style={{
         flexDirection: "row",
-        borderWidth: 0.7,
+        borderWidth: 0.5,
         borderTopWidth: 0,
-        borderColor: "#D0DOD0",
+        borderColor: "grey",
         padding: 10,
+      }}
+      onPress={() => {
+        navigation.navigate("ChatMessage", {
+          recepientId: item._id,
+        });
       }}
     >
       <Image

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import React, { useLayoutEffect, useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserType } from "../contexts/userContext.js";
@@ -76,13 +76,15 @@ const Home = () => {
   const [users, setUsers] = useState([]);
   return (
     <>
-      <View>
+      <ScrollView>
         <View>
-          {users.map((item, index) => {
-            return <User item={item} key={index}></User>;
-          })}
+          <View>
+            {users.map((item, index) => {
+              return <User item={item} key={index}></User>;
+            })}
+          </View>
         </View>
-      </View>
+      </ScrollView>
       <Toast />
     </>
   );

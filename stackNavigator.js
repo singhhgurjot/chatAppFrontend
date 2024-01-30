@@ -7,6 +7,7 @@ import Home from "./screens/Home.js";
 import Friends from "./screens/Friends.js";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Chats from "./screens/Chats.js";
+import ChatMessage from "./screens/ChatMessage.js";
 const stackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -25,6 +26,7 @@ const stackNavigator = () => {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Friends" component={Friends} />
         <Stack.Screen name="Chats" component={Chats} />
+        <Stack.Screen name="ChatMessage" component={ChatMessage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -18,10 +18,15 @@ const Friends = () => {
         Alert.alert("Could not fetch friend requests");
       });
   }, []);
-  console.log(friendRequests);
+
   return (
     <>
-      <View style={{ padding: 10, marginHorizontal: 12 }}>
+      <View
+        style={{
+          padding: 10,
+          marginHorizontal: 12,
+        }}
+      >
         {friendRequests.length > 0 && (
           <Text style={{ color: "black", marginBottom: 20 }}>
             Your Friend Requests!
@@ -42,7 +47,6 @@ const Friends = () => {
     </>
   );
 };
-
 export default Friends;
 
 const styles = StyleSheet.create({});

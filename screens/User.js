@@ -68,7 +68,14 @@ const User = ({ item }) => {
   };
   return (
     <Pressable
-      style={{ flexDirection: "row", alignItems: "center", marginVertical: 10 }}
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        borderWidth: 0.5,
+        borderTopWidth: 0,
+        borderColor: "grey",
+      }}
     >
       <View style={{}}>
         <Image
