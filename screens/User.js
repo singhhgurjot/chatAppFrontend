@@ -1,5 +1,5 @@
 import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserType } from "../contexts/userContext";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons.js";
@@ -7,6 +7,8 @@ import Toast from "react-native-toast-message";
 const User = ({ item }) => {
   const { userId, setUserId } = useContext(UserType);
   const [sentFriendReq, setFriendReq] = useState(false);
+  const [sentList, setSentList] = useState([]);
+  const [alreadyFriends, setAlreadyFriends] = useState([]);
   const sendFriendRequest = (senderId, recepientId) => {
     const data = { currentUserId: senderId, sentUserId: recepientId };
     axios
@@ -66,6 +68,30 @@ const User = ({ item }) => {
         Alert.alert("Friend Request could not be taken back");
       });
   };
+  useEffect(() => {
+    const getSentRequests = async (userId) => {
+      axios
+        .get(`http://192.168.85.115:3000/getSentRequests/${userId}`)
+        .then((res) => {
+          const alreadySent = res.data.sentRequests.map((item) => item._id);
+          setSentList(alreadySent);
+        });
+    };
+    getSentRequests(userId);
+  }, [userId]);
+  useEffect(() => {
+    const getAllFriends = async (userId) => {
+      axios
+        .get(`http://192.168.85.115:3000/getAllFriends/${userId}`)
+        .then((res) => {
+          const friends = res.data.friends.map((item) => item._id);
+          setAlreadyFriends(friends);
+        });
+    };
+    getAllFriends(userId);
+  }, [userId]);
+  console.log(sentList);
+
   return (
     <Pressable
       style={{
@@ -94,34 +120,73 @@ const User = ({ item }) => {
         <Text style={{ color: "black", fontWeight: "bold" }}>{item?.name}</Text>
         <Text style={{ color: "grey" }}>{item?.email}</Text>
       </View>
-      <Pressable
-        onPress={
-          !sentFriendReq
-            ? () => {
-                sendFriendRequest(userId, item._id);
-              }
-            : () => {
-                takeFriendRequest(userId, item._id);
-              }
-        }
-        style={{
-          backgroundColor: "#88A9C3",
-          padding: 10,
-          borderRadius: 6,
-          width: 120,
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
-          marginRight: 5,
-        }}
-      >
-        <Text style={{}}> {sentFriendReq ? "Sent" : "Add Friend"}</Text>
-        {sentFriendReq ? (
-          <MaterialIcons name="done" size={20}></MaterialIcons>
-        ) : (
-          <MaterialIcons name="person-add" size={20}></MaterialIcons>
-        )}
-      </Pressable>
+      {alreadyFriends.includes(item._id) ? (
+        <Pressable
+          style={{
+            backgroundColor: "#88A9C3",
+            padding: 10,
+            borderRadius: 6,
+            width: 120,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+            marginRight: 5,
+          }}
+        >
+          <Text style={{ textAlign: "center", color: "white" }}>Friends</Text>
+        </Pressable>
+      ) : sentList.includes(item._id) ? (
+        <Pressable
+          onPress={takeFriendRequest(userId, item._id)}
+          style={{
+            backgroundColor: "#88A9C3",
+            padding: 10,
+            borderRadius: 6,
+            width: 120,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+            marginRight: 5,
+          }}
+        >
+          <Text style={{}}> Sent</Text>
+          {sentFriendReq ? (
+            <MaterialIcons name="done" size={20}></MaterialIcons>
+          ) : (
+            <MaterialIcons name="person-add" size={20}></MaterialIcons>
+          )}
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={
+            !sentFriendReq
+              ? () => {
+                  sendFriendRequest(userId, item._id);
+                }
+              : () => {
+                  takeFriendRequest(userId, item._id);
+                }
+          }
+          style={{
+            backgroundColor: "#88A9C3",
+            padding: 10,
+            borderRadius: 6,
+            width: 120,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+            marginRight: 5,
+          }}
+        >
+          <Text style={{}}> {sentFriendReq ? "Sent" : "Add Friend"}</Text>
+          {sentFriendReq ? (
+            <MaterialIcons name="done" size={20}></MaterialIcons>
+          ) : (
+            <MaterialIcons name="person-add" size={20}></MaterialIcons>
+          )}
+        </Pressable>
+      )}
     </Pressable>
   );
 };
